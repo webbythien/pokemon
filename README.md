@@ -26,7 +26,7 @@ This repository contains a full-stack application consisting of a backend REST A
 
 ```plaintext
 pokemon/
-├── docker-compose.yml       # Docker configuration for MongoDB
+├── mongo-db.yml              # Docker configuration for MongoDB
 ├── express-rest-boilerplate/ # Backend service
 │   ├── .env.example          # Environment variable example file
 │   ├── package.json          # Backend dependencies
@@ -60,7 +60,7 @@ cd pokemon
 The repository includes a preconfigured `docker-compose.yml` file for setting up MongoDB. Start the services using:
 
 ```bash
-docker-compose up -d
+docker-compose -f mongo-db.yml up -d --build
 ```
 
 This command will:
@@ -90,12 +90,7 @@ npm install
 cp .env.example .env
 ```
 
-4. Update the `.env` file with the following MongoDB connection string:
-```
-MONGO_URI=mongodb://root:exevipvl@mongo:27017
-```
-
-5. Start the backend server:
+4. Start the backend server:
 ```bash
 npm run dev
 ```
@@ -117,8 +112,8 @@ npm start
 ```
 
 ### **Step 5: Verify the Application**
-* **Backend**: Visit `http://localhost:<backend-port>` to confirm the REST API is running. Use an API client like Postman to test endpoints.
-* **Frontend**: Visit `http://localhost:<frontend-port>` in your browser to access the Angular application.
+* **Backend**: Visit `http://localhost:3000` to confirm the REST API is running. Use an API client like Postman to test endpoints.
+* **Frontend**: Visit `http://localhost:4200` in your browser to access the Angular application.
 
 ## **Usage**
 1. Start by registering a user through the Angular frontend.
