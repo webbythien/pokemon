@@ -1,3 +1,5 @@
+/* signup.component.css */
+/* You can reuse the same CSS from your login component and add these additional styles */
  
 
 .parent {
@@ -171,6 +173,20 @@
 }
 
 
+.signup-link {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.signup-link a {
+    color: #4C489D;
+    text-decoration: none;
+}
+
+.signup-link a:hover {
+    text-decoration: underline;
+}
 
 
 /* Add these styles to your signup.component.css */

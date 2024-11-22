@@ -1,0 +1,34 @@
+<!-- pokemon-slider.component.html -->
+<div class="slider-wrapper">
+    <swiper-container #swiper init="false" class="mySwiper">
+      <swiper-slide *ngFor="let pokemon of featuredVideos(); trackBy: trackByPokemonId">
+        <div class="video-container">
+          <ng-container *ngIf="getYoutubeEmbedUrl(pokemon.ytbUrl) as videoUrl">
+            <iframe
+              [src]="videoUrl"
+              title="Pokemon Video"
+              loading="lazy"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+              class="video-frame">
+            </iframe>
+          </ng-container>
+          <div class="video-info">
+            <h3>{{ pokemon.name }}</h3>
+            <div class="type-badges">
+              <span class="badge" [ngClass]="'type-' + pokemon.type1.toLowerCase()">
+                {{ pokemon.type1 }}
+              </span>
+              <span 
+                class="badge ms-2" 
+                [ngClass]="'type-' + pokemon.type2.toLowerCase()"
+                *ngIf="pokemon.type2">
+                {{ pokemon.type2 }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </swiper-slide>
+    </swiper-container>
+  </div>

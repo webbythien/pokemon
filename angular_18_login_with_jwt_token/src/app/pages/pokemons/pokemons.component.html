@@ -1,84 +1,421 @@
 <div class="row">
-    <div class="col-7">
-        <h6>Pokemons</h6>
-    </div>
+  <div class="col-7">
+    <!-- <h6>Pokemons</h6> -->
+  </div>
+  
+<!-- here is slider -->
+<!-- <app-pokemon-slider [pokemonList]="pokemonList"></app-pokemon-slider> -->
 
-    <div class="col-5">
-        <button class="btn bnt-warning">Add Favorite</button>
-    </div>
+  <div class="col-12 text-end" style="margin-bottom: 12px;">
+    <button class="btn btn-warning" (click)="openModal()">Import file pokemon</button>
+  </div>
 </div>
 
-<div class="row">
-    <div class="col-4">
-            <div class="card shadow-sm">
-              <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-              <div class="card-body">
-                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                  </div>
-                  <small class="text-body-secondary">9 mins</small>
-                </div>
-              </div>
-            </div>
+<div class="container-fluid mt-4">
+  <form [formGroup]="searchForm" class="row g-3 mb-4">
+    <!-- Search Bar -->
+    <div class="col-md-12">
+      <div class="input-group">
+        <span class="input-group-text">
+          <i class="bi bi-search"></i>
+        </span>
+        <input 
+          type="text" 
+          class="form-control" 
+          placeholder="Search Pokémon..."
+          formControlName="name"
+        >
+      </div>
     </div>
 
-    <div class="col-4">
-        <div class="card shadow-sm">
-          <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-          <div class="card-body">
-            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="btn-group">
-                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-              </div>
-              <small class="text-body-secondary">9 mins</small>
-            </div>
+    <!-- Advanced Filters -->
+    <div class="col-md-3">
+      <select class="form-select" formControlName="type1">
+        <option value="">Select Type 1</option>
+        @for(type of pokemonTypes; track type) {
+          <option [value]="type">{{type | titlecase}}</option>
+        }
+      </select>
+    </div>
+
+    <div class="col-md-3">
+      <select class="form-select" formControlName="type2">
+        <option value="">Select Type 2</option>
+        @for(type of pokemonTypes; track type) {
+          <option [value]="type">{{type | titlecase}}</option>
+        }
+      </select>
+    </div>
+
+    <div class="col-md-2">
+      <select class="form-select" formControlName="legendary">
+        <option value="">Legendary Status</option>
+        <option value="true">Legendary</option>
+        <option value="false">Non-Legendary</option>
+      </select>
+    </div>
+
+    <div class="col-md-2">
+      <input 
+        type="number" 
+        class="form-control" 
+        placeholder="Min Speed"
+        formControlName="minSpeed"
+      >
+    </div>
+
+    <div class="col-md-2">
+      <input 
+        type="number" 
+        class="form-control" 
+        placeholder="Max Speed"
+        formControlName="maxSpeed"
+      >
+    </div>
+
+    <div class="col-md-2">
+      <div class="form-check">
+        <input 
+          class="form-check-input" 
+          type="checkbox" 
+          formControlName="favorites" 
+          id="favoritesFilter">
+        <label class="form-check-label" for="favoritesFilter">
+          My Favorites
+        </label>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <button type="button" class="btn btn-secondary me-2" (click)="resetFilters()">
+        Reset Filters
+      </button>
+    </div>
+  </form>
+</div>
+
+<div class="row row-cols-5 g-4">
+  @for (item of pokemonList(); track $index) {
+    <div class="col">
+      <div class="card h-100 shadow-sm position-relative">
+        <!-- Clickable area for navigation -->
+        <div class="card-body row" >
+          <p class="col-6 card-text fw-bold">{{item.name}}</p>
+          <div class="col-6" style="display: flex; justify-content:flex-end; gap: 8px;">
+            <p class="card-text fw-bold" style="color: red;">{{item.hp}}HP</p>
+            <img 
+            [src]="getPokemonTypeIcon(item.type1)" 
+            [alt]="item.type1"
+            class="type-icon"
+            width="24"
+            height="24"
+          >
           </div>
         </div>
-</div>
 
-<div class="col-4">
-    <div class="card shadow-sm">
-      <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-      <div class="card-body">
-        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-        <div class="d-flex justify-content-between align-items-center">
-          <div class="btn-group">
-            <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+        <div class="cursor-pointer" style="padding: 12px;" (click)="navigateToDetail(item._id)">
+          <div class="rainbow-border position-relative" style="height:50%; padding: 5px;">
+            <!-- Favorite button -->
+            <button 
+            type="button" 
+            class="btn btn-sm position-absolute favorite-btn"
+            [class.btn-outline-secondary]="!item.is_favorite"
+            [class.btn-warning]="item.is_favorite"
+            (click)="toggleFavorite(item); $event.stopPropagation()"
+            [disabled]="isTogglingFavorite(item._id)"
+          >
+            @if(isTogglingFavorite(item._id)) {
+              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            } @else {
+              <img 
+                [src]="item.is_favorite ? 'https://cdn-icons-png.flaticon.com/512/9484/9484251.png' : 'https://www.iconpacks.net/icons/2/free-heart-icon-3510-thumb.png'" 
+                [alt]="item.is_favorite ? 'Favorited' : 'Add to favorites'"
+                class="heart-icon"
+              />
+            }
+          </button>
+          
+            <!-- Legendary tag -->
+            @if(item.legendary) {
+              <span class="legendary-tag">
+                <i class="bi bi-star-fill"></i> Legendary
+              </span>
+            }
+          
+            <img 
+              [src]="item.image" 
+              class="card-img-top" 
+              [alt]="item.name" 
+              style="height: 100%; width: 100%; object-fit: contain;" 
+            />
           </div>
-          <small class="text-body-secondary">9 mins</small>
+
+          <div class="stats-container">
+            <table class="stats-table">
+              <tr>
+                <td colspan="3" class="total-row">
+                  <span class="total-badge">Total: {{item.total}}</span>
+                </td>
+              </tr>
+              <tr class="stat-row">
+                <td class="type-cell">
+                  <div class="type-icons">
+                    <img 
+                      [src]="getPokemonTypeIcon(item.type1)" 
+                      [alt]="item.type1"
+                      class="type-icon"
+                    >
+                    <img 
+                      *ngIf="item.type2"
+                      [src]="getPokemonTypeIcon(item.type2)" 
+                      [alt]="item.type2"
+                      class="type-icon"
+                    >
+                  </div>
+                </td>
+                <td class="stat-cell">
+                  <div class="stat-container">
+                    <span class="stat-label">ATK</span>
+                    <span class="stat-value">{{item.attack}}</span>
+                  </div>
+                </td>
+                <td class="stat-cell">
+                  <div class="stat-container">
+                    <span class="stat-label">DEF</span>
+                    <span class="stat-value">{{item.defense}}</span>
+                  </div>
+                </td>
+              </tr>
+              <tr class="stat-row">
+                <td></td>
+                <td class="stat-cell">
+                  <div class="stat-container">
+                    <span class="stat-label">SP.ATK</span>
+                    <span class="stat-value">{{item.spAttack}}</span>
+                  </div>
+                </td>
+                <td class="stat-cell">
+                  <div class="stat-container">
+                    <span class="stat-label">SP.DEF</span>
+                    <span class="stat-value">{{item.spDefense}}</span>
+                  </div>
+                </td>
+              </tr>
+              <tr class="stat-row">
+                <td class="speed-cell">
+                  <div class="stat-container">
+                    <span class="stat-label">SPD</span>
+                    <span class="stat-value">{{item.speed}}</span>
+                  </div>
+                </td>
+                <td colspan="2" class="generation-cell">
+                  <span class="generation-badge">Gen {{item.generation}}</span>
+                </td>
+              </tr>
+            </table>
+          </div>
         </div>
       </div>
     </div>
-</div>
+  }
 </div>
 
 
-<div class="modal" id="myModal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-  
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">Modal Heading</h4>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-  
-        <!-- Modal body -->
-        <div class="modal-body">
-          Modal body..
-        </div>
-  
-        <!-- Modal footer -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-        </div>
-  
+<!-- Toast for notifications -->
+@if (notification()) {
+  <div class="toast-container position-fixed top-0 end-0 p-3">
+    <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header" [ngClass]="notification()?.type === 'success' ? 'bg-success' : 'bg-danger'">
+        <strong class="me-auto text-white">{{notification()?.title}}</strong>
+        <button type="button" class="btn-close" (click)="clearNotification()"></button>
+      </div>
+      <div class="toast-body">
+        {{notification()?.message}}
       </div>
     </div>
   </div>
+}
+
+<!-- Pagination -->
+
+<div class="d-flex justify-content-between align-items-center mt-4">
+  <!-- Page Size Dropdown -->
+  <div class="d-flex align-items-center">
+    <label for="pageSize" class="me-2">Items per page:</label>
+    <select 
+      id="pageSize" 
+      class="form-select" 
+      style="width: auto;"
+      [value]="itemsPerPage()"
+      (change)="onPageSizeChange($event)">
+      @for (size of pageSizeOptions; track size) {
+        <option [value]="size">{{size}}</option>
+      }
+    </select>
+  </div>
+
+  <!-- Pagination Controls -->
+  <div class="d-flex align-items-center">
+    <button 
+      class="btn btn-outline-primary me-2" 
+      (click)="changePage(currentPage() - 1)"
+      [disabled]="currentPage() === 1">
+      Previous
+    </button>
+
+    <!-- Page Numbers -->
+    <div class="d-flex align-items-center mx-2">
+      @if (totalPages() <= 5) {
+        @for (page of createArray(totalPages()); track page) {
+          <button 
+            class="btn mx-1" 
+            [class.btn-primary]="currentPage() === page + 1"
+            [class.btn-outline-primary]="currentPage() !== page + 1"
+            (click)="changePage(page + 1)">
+            {{page + 1}}
+          </button>
+        }
+      
+      } @else {
+        <!-- First page -->
+        <button 
+          class="btn mx-1" 
+          [class.btn-primary]="currentPage() === 1"
+          [class.btn-outline-primary]="currentPage() !== 1"
+          (click)="changePage(1)">
+          1
+        </button>
+
+        @if (currentPage() > 3) {
+          <span class="mx-2">...</span>
+        }
+
+        @for (page of [-1, 0, 1]; track page) {
+          @if (currentPage() + page > 1 && currentPage() + page < totalPages()) {
+            <button 
+              class="btn mx-1" 
+              [class.btn-primary]="currentPage() === currentPage() + page"
+              [class.btn-outline-primary]="currentPage() !== currentPage() + page"
+              (click)="changePage(currentPage() + page)">
+              {{currentPage() + page}}
+            </button>
+          }
+        }
+
+        @if (currentPage() < totalPages() - 2) {
+          <span class="mx-2">...</span>
+        }
+
+        <button 
+          class="btn mx-1" 
+          [class.btn-primary]="currentPage() === totalPages()"
+          [class.btn-outline-primary]="currentPage() !== totalPages()"
+          (click)="changePage(totalPages())">
+          {{totalPages()}}
+        </button>
+      }
+    </div>
+
+    <button 
+      class="btn btn-outline-primary ms-2" 
+      (click)="changePage(currentPage() + 1)"
+      [disabled]="currentPage() === totalPages()">
+      Next
+    </button>
+  </div>
+
+  <div class="text-muted">
+    Showing {{(currentPage() - 1) * itemsPerPage() + 1}} - 
+    {{getMath().min(currentPage() * itemsPerPage(), pokemonList().length)}} 
+    of {{pokemonList().length}} Pokémon
+  </div>
+</div>
+
+<!-- Import Modal -->
+<div class="modal" #newModal>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Import Pokemon CSV</h4>
+        <button type="button" class="btn-close" (click)="closeModal()"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="csvFile" class="form-label">Choose CSV File</label>
+          <input 
+            type="file" 
+            class="form-control" 
+            id="csvFile" 
+            accept=".csv"
+            (change)="onFileSelected($event)"
+            #fileInput>
+          <div class="form-text">Please upload a CSV file with pokemon data</div>
+        </div>
+        
+        @if(selectedFile()) {
+          <div class="alert alert-info">
+            Selected file: {{selectedFile()?.name}}
+          </div>
+        }
+
+        @if(uploadProgress() > 0) {
+          <div class="mb-3">
+            <div class="progress">
+              <div 
+                class="progress-bar" 
+                role="progressbar" 
+                [style.width.%]="uploadProgress()"
+                [attr.aria-valuenow]="uploadProgress()" 
+                aria-valuemin="0" 
+                aria-valuemax="100">
+                {{uploadProgress()}}%
+              </div>
+            </div>
+          </div>
+        }
+
+        @if(error()) {
+          <div class="alert alert-danger">
+            {{error()}}
+          </div>
+        }
+      </div>
+
+      <div class="modal-footer">
+        <button 
+          type="button" 
+          class="btn btn-primary" 
+          [disabled]="!selectedFile() || isUploading()"
+          (click)="uploadFile()">
+          <span *ngIf="isUploading()">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Uploading...
+          </span>
+          <span *ngIf="!isUploading()">Upload</span>
+        </button>
+        <button 
+          type="button" 
+          class="btn btn-secondary" 
+          [disabled]="isUploading()"
+          (click)="closeModal()">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+@if (showSuccess()) {
+  <div class="toast-container position-fixed top-0 end-0 p-3">
+    <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header bg-success text-white">
+        <strong class="me-auto">Success</strong>
+        <button type="button" class="btn-close" (click)="showSuccess.set(false)"></button>
+      </div>
+      <div class="toast-body">
+        File uploaded successfully!
+      </div>
+    </div>
+  </div>
+}

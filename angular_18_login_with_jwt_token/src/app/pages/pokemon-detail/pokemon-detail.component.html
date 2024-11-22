@@ -1,0 +1,213 @@
+<div class="container-fluid mt-4" *ngIf="pokemon()">
+    <div class="row">
+      <!-- Left Column - Image and Basic Info -->
+      <div class="col-md-6">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <!-- Header with Name and HP -->
+            <div class="row mb-3">
+              <div class="col-6">
+                <h2 class="card-text fw-bold mb-0">{{pokemon()?.name}}</h2>
+                @if(pokemon()?.legendary) {
+                  <span class="legendary-tag mt-2">
+                    <i class="bi bi-star-fill"></i> Legendary
+                  </span>
+                }
+              </div>
+              <div class="col-6 d-flex justify-content-end align-items-start gap-2">
+                <p class="card-text fw-bold mb-0" style="color: red;">{{pokemon()?.hp}}HP</p>
+                <img 
+                *ngIf="pokemon()?.type1"
+                [src]="getPokemonTypeIcon(pokemon()!.type1!)" 
+                  [alt]="pokemon()?.type1"
+                  class="type-icon"
+                  width="24"
+                  height="24"
+                >
+              </div>
+            </div>
+  
+            <!-- Main Pokemon Image -->
+            <div class="rainbow-border position-relative mb-4" style="height: 400px; padding: 15px;">
+              <!-- Favorite Button -->
+              <button 
+                type="button" 
+                class="btn btn-sm position-absolute favorite-btn"
+                [class.btn-outline-secondary]="!pokemon()?.is_favorite"
+                [class.btn-warning]="pokemon()?.is_favorite"
+                (click)="toggleFavorite()"
+                [disabled]="togglingFavorite()"
+              >
+                @if(togglingFavorite()) {
+                  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                } @else {
+                  <img 
+                    [src]="pokemon()?.is_favorite ? 'https://cdn-icons-png.flaticon.com/512/9484/9484251.png' : 'https://www.iconpacks.net/icons/2/free-heart-icon-3510-thumb.png'" 
+                    [alt]="pokemon()?.is_favorite ? 'Favorited' : 'Add to favorites'"
+                    class="heart-icon"
+                  />
+                }
+              </button>
+  
+              <img 
+                [src]="pokemon()?.image" 
+                class="img-fluid h-100 w-100"
+                [alt]="pokemon()?.name" 
+                style="object-fit: contain;"
+              >
+            </div>
+  
+            <!-- Pokemon Video -->
+            <div class="video-container mb-4">
+                <div class="ratio ratio-16x9">
+                  <iframe
+                    [src]="getYoutubeEmbedUrl(pokemon()?.ytbUrl || '')"
+                    title="Pokemon Video"
+                    class="rounded"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                  ></iframe>
+                </div>
+              </div>
+  
+            <!-- Type and Generation Info -->
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div class="type-icons">
+                <img 
+                *ngIf="pokemon()?.type1"
+                [src]="getPokemonTypeIcon(pokemon()!.type1!)" 
+                [alt]="pokemon()?.type1"
+                class="type-icon me-2"
+                >
+
+                <!-- Second Type Icon (if exists) -->
+                <img 
+                *ngIf="pokemon()?.type2"
+                [src]="getPokemonTypeIcon(pokemon()!.type2!)" 
+                [alt]="pokemon()?.type2"
+                class="type-icon"
+                >
+              </div>
+              <span class="generation-badge">Gen {{pokemon()?.generation}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Right Column - Stats -->
+      <div class="col-md-6">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h3 class="mb-4">Pokemon Stats</h3>
+            
+            <!-- Stats Table -->
+            <div class="stats-container">
+              <table class="stats-table w-100">
+                <tr>
+                  <td colspan="3" class="total-row">
+                    <span class="total-badge">Total: {{pokemon()?.total}}</span>
+                  </td>
+                </tr>
+                <!-- Base Stats -->
+                <tr class="stat-row">
+                  <td class="stat-cell">
+                    <div class="stat-container">
+                      <span class="stat-label">HP</span>
+                      <div class="progress">
+                        <div class="progress-bar bg-success" 
+                             [style.width.%]="(pokemon()?.hp || 0) / 2">
+                          {{pokemon()?.hp}}
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr class="stat-row">
+                  <td class="stat-cell">
+                    <div class="stat-container">
+                      <span class="stat-label">Attack</span>
+                      <div class="progress">
+                        <div class="progress-bar bg-danger" 
+                             [style.width.%]="(pokemon()?.attack || 0) / 2">
+                          {{pokemon()?.attack}}
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr class="stat-row">
+                  <td class="stat-cell">
+                    <div class="stat-container">
+                      <span class="stat-label">Defense</span>
+                      <div class="progress">
+                        <div class="progress-bar bg-primary" 
+                             [style.width.%]="(pokemon()?.defense || 0) / 2">
+                          {{pokemon()?.defense}}
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr class="stat-row">
+                  <td class="stat-cell">
+                    <div class="stat-container">
+                      <span class="stat-label">Sp. Attack</span>
+                      <div class="progress">
+                        <div class="progress-bar bg-warning" 
+                             [style.width.%]="(pokemon()?.spAttack || 0) / 2">
+                          {{pokemon()?.spAttack}}
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr class="stat-row">
+                  <td class="stat-cell">
+                    <div class="stat-container">
+                      <span class="stat-label">Sp. Defense</span>
+                      <div class="progress">
+                        <div class="progress-bar bg-info" 
+                             [style.width.%]="(pokemon()?.spDefense || 0) / 2">
+                          {{pokemon()?.spDefense}}
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr class="stat-row">
+                  <td class="stat-cell">
+                    <div class="stat-container">
+                      <span class="stat-label">Speed</span>
+                      <div class="progress">
+                        <div class="progress-bar bg-secondary" 
+                             [style.width.%]="(pokemon()?.speed || 0) / 2">
+                          {{pokemon()?.speed}}
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+  
+            <!-- Action Buttons -->
+            <div class="d-flex justify-content-between mt-4">
+              <button class="btn btn-outline-secondary" (click)="goBack()">
+                <i class="bi bi-arrow-left"></i> Back to List
+              </button>
+              <button 
+                class="btn" 
+                [class.btn-warning]="pokemon()?.is_favorite"
+                [class.btn-outline-warning]="!pokemon()?.is_favorite"
+                [disabled]="togglingFavorite()" 
+                (click)="toggleFavorite()">
+                <i class="bi" [class.bi-heart]="!pokemon()?.is_favorite" [class.bi-heart-fill]="pokemon()?.is_favorite"></i>
+                {{ pokemon()?.is_favorite ? 'Remove from favorites' : 'Add to favorites' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,146 @@
+/* Card and container styles */
+.card {
+    border-radius: 15px;
+    border: none;
+    transition: transform 0.2s;
+  }
+  
+  /* Rainbow border effect */
+  .rainbow-border {
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    border-radius: 10px;
+    padding: 3px;
+    animation: rainbow 5s linear infinite;
+  }
+  
+  @keyframes rainbow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  /* Favorite button styles */
+  .favorite-btn {
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+  
+  .heart-icon {
+    width: 20px;
+    height: 20px;
+  }
+  
+  /* Legendary tag styles */
+  .legendary-tag {
+    display: inline-block;
+    padding: 4px 8px;
+    background-color: #ffd700;
+    color: #000;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+  }
+  
+  /* Type icon styles */
+  .type-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+  }
+  
+  /* Stats styles */
+  .stats-container {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 15px;
+  }
+  
+  .stats-table {
+    width: 100%;
+  }
+  
+  .total-row {
+    text-align: center;
+    padding: 10px 0;
+  }
+  
+  .total-badge {
+    background-color: #6c757d;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 15px;
+    font-weight: bold;
+  }
+  
+  .stat-row {
+    margin-bottom: 10px;
+  }
+  
+  .stat-cell {
+    padding: 8px;
+  }
+  
+  .stat-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .stat-label {
+    min-width: 80px;
+    font-weight: bold;
+  }
+  
+  .progress {
+    height: 20px;
+    background-color: #e9ecef;
+    border-radius: 10px;
+    flex-grow: 1;
+  }
+  
+  .progress-bar {
+    border-radius: 10px;
+    transition: width 0.3s ease;
+  }
+  
+  /* Generation badge styles */
+  .generation-badge {
+    background-color: #6c757d;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 15px;
+    font-weight: bold;
+  }
+
+  /* Video container styles */
+.video-container {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  
+  .ratio {
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .ratio iframe {
+    border-radius: 10px;
+  }
+  
+  /* Optional hover effect */
+  .video-container:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+  }
