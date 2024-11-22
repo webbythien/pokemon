@@ -1,4 +1,3 @@
-Đây là nội dung đầy đủ của file README.md:
 
 # Pokemon Application
 
