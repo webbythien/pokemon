@@ -1,164 +1,170 @@
-# Express ES2017 REST API Boilerplate
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) [![npm version](https://badge.fury.io/js/express-rest-es2017-boilerplate.svg)](https://badge.fury.io/js/express-rest-es2017-boilerplate) [![Build Status](https://travis-ci.org/danielfsousa/express-rest-es2017-boilerplate.svg?branch=master)](https://travis-ci.org/danielfsousa/express-rest-es2017-boilerplate) [![Coverage Status](https://coveralls.io/repos/github/danielfsousa/express-rest-es2017-boilerplate/badge.svg?branch=master)](https://coveralls.io/github/danielfsousa/express-rest-es2017-boilerplate?branch=master)
+Đây là nội dung đầy đủ của file README.md:
 
-Boilerplate/Generator/Starter Project for building RESTful APIs and microservices using Node.js, Express and MongoDB
+# Pokemon Application
 
-## Features
+This repository contains a full-stack application consisting of a backend REST API and a frontend user interface. The backend is built with Express.js, while the frontend is developed using Angular. MongoDB is used for data storage, and Docker is employed to simplify the setup process.
 
- - No transpilers, just vanilla javascript
- - ES2017 latest features like Async/Await
- - CORS enabled
- - Uses [yarn](https://yarnpkg.com)
- - Express + MongoDB ([Mongoose](http://mongoosejs.com/))
- - Consistent coding styles with [editorconfig](http://editorconfig.org)
- - [Docker](https://www.docker.com/) support
- - Uses [helmet](https://github.com/helmetjs/helmet) to set some HTTP headers for security
- - Load environment variables from .env files with [dotenv](https://github.com/rolodato/dotenv-safe)
- - Request validation with [joi](https://github.com/hapijs/joi)
- - Gzip compression with [compression](https://github.com/expressjs/compression)
- - Linting with [eslint](http://eslint.org)
- - Tests with [mocha](https://mochajs.org), [chai](http://chaijs.com) and [sinon](http://sinonjs.org)
- - Code coverage with [istanbul](https://istanbul.js.org) and [coveralls](https://coveralls.io)
- - Git hooks with [husky](https://github.com/typicode/husky) 
- - Logging with [morgan](https://github.com/expressjs/morgan)
- - Authentication and Authorization with [passport](http://passportjs.org)
- - API documentation generation with [apidoc](http://apidocjs.com)
- - Continuous integration support with [travisCI](https://travis-ci.org)
- - Monitoring with [pm2](https://github.com/Unitech/pm2)
+---
 
-## Requirements
+## **Features**
 
- - [Node v7.6+](https://nodejs.org/en/download/current/) or [Docker](https://www.docker.com/)
- - [Yarn](https://yarnpkg.com/en/docs/install)
+- **Backend**: 
+  - RESTful API with Express.js.
+  - JWT-based authentication.
+  - MongoDB as the database.
+  
+- **Frontend**:
+  - Angular application with JWT authentication.
+  - User-friendly interface for login and interaction.
 
-## Getting Started
+- **Database**:
+  - MongoDB, managed through Docker.
 
-#### Clone the repo and make it yours:
+---
 
-```bash
-git clone --depth 1 https://github.com/danielfsousa/express-rest-es2017-boilerplate
-cd express-rest-es2017-boilerplate
-rm -rf .git
+## **Repository Structure**
+
+```plaintext
+pokemon/
+├── docker-compose.yml       # Docker configuration for MongoDB
+├── express-rest-boilerplate/ # Backend service
+│   ├── .env.example          # Environment variable example file
+│   ├── package.json          # Backend dependencies
+│   ├── src/                  # Source code for the API
+│   └── ...
+├── angular_18_login_with_jwt_token/ # Frontend service
+│   ├── package.json           # Frontend dependencies
+│   ├── src/                   # Source code for Angular application
+│   └── ...
+└── README.md                 # Documentation
 ```
 
-#### Install dependencies:
+## Setup Instructions
 
+Follow these steps to set up and run the application locally.
+
+### Prerequisites
+Ensure you have the following installed:
+- Docker
+- Node.js
+- npm
+
+### **Step 1: Clone the Repository**
+Clone the repository to your local machine:
 ```bash
-yarn
+git clone https://github.com/webbythien/pokemon.git
+cd pokemon
 ```
 
-#### Set environment variables:
+### **Step 2: Start Docker Services**
+The repository includes a preconfigured `docker-compose.yml` file for setting up MongoDB. Start the services using:
 
+```bash
+docker-compose up -d
+```
+
+This command will:
+* Start a MongoDB container with the following credentials:
+   * **Username**: `root`
+   * **Password**: `exevipvl`
+   * **Port**: `27017`
+
+Verify that the MongoDB container is running:
+```bash
+docker ps
+```
+
+### **Step 3: Backend Setup (Express REST Boilerplate)**
+1. Navigate to the backend directory:
+```bash
+cd express-rest-boilerplate
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Copy the `.env.example` file to `.env`:
 ```bash
 cp .env.example .env
 ```
 
-## Running Locally
-
-```bash
-yarn dev
+4. Update the `.env` file with the following MongoDB connection string:
+```
+MONGO_URI=mongodb://root:exevipvl@mongo:27017
 ```
 
-## Running in Production
-
+5. Start the backend server:
 ```bash
-yarn start
+npm run dev
 ```
 
-## Lint
-
+### **Step 4: Frontend Setup (Angular 18 with JWT Authentication)**
+1. Navigate to the frontend directory:
 ```bash
-# lint code with ESLint
-yarn lint
-
-# try to fix ESLint errors
-yarn lint:fix
-
-# lint and watch for changes
-yarn lint:watch
+cd ../angular_18_login_with_jwt_token
 ```
 
-## Test
-
+2. Install dependencies:
 ```bash
-# run all tests with Mocha
-yarn test
-
-# run unit tests
-yarn test:unit
-
-# run integration tests
-yarn test:integration
-
-# run all tests and watch for changes
-yarn test:watch
-
-# open nyc test coverage reports
-yarn coverage
+npm install
 ```
 
-## Validate
-
+3. Start the Angular development server:
 ```bash
-# run lint and tests
-yarn validate
+npm start
 ```
 
-## Logs
+### **Step 5: Verify the Application**
+* **Backend**: Visit `http://localhost:<backend-port>` to confirm the REST API is running. Use an API client like Postman to test endpoints.
+* **Frontend**: Visit `http://localhost:<frontend-port>` in your browser to access the Angular application.
 
+## **Usage**
+1. Start by registering a user through the Angular frontend.
+2. Login to obtain a JWT token.
+3. Use the token to interact with protected API endpoints.
+
+## **Commands Summary**
+Start Docker Services
 ```bash
-# show logs in production
-pm2 logs
+docker-compose up -d
 ```
 
-## Documentation
-
+Backend Setup
 ```bash
-# generate and open api documentation
-yarn docs
+cd express-rest-boilerplate
+npm install
+cp .env.example .env
+npm run dev
 ```
 
-## Docker
-
+Frontend Setup
 ```bash
-# run container locally
-yarn docker:dev
-
-# run container in production
-yarn docker:prod
-
-# run tests
-yarn docker:test
+cd angular_18_login_with_jwt_token
+npm install
+npm start
 ```
 
-## Deploy
+## **Troubleshooting**
 
-Set your server ip:
+1. **MongoDB Connection Issues**:
+   * Ensure the Docker container is running using `docker ps`
+   * Verify the `MONGO_URI` in the `.env` file matches the MongoDB container configuration.
 
+2. **Backend Issues**:
+   * Delete `node_modules` and reinstall dependencies:
 ```bash
-DEPLOY_SERVER=127.0.0.1
+rm -rf node_modules
+npm install
 ```
 
-Replace my Docker username with yours:
+3. **Frontend Issues**:
+   * Ensure the backend server is running and accessible.
 
-```bash
-nano deploy.sh
-```
+## **Future Enhancements**
+* Add unit and integration tests for both backend and frontend.
+* Improve frontend UI/UX with additional features.
+* Set up a CI/CD pipeline for automated testing and deployment.
 
-Run deploy script:
-
-```bash
-yarn deploy
-```
-
-## Tutorials
- - [Create API Documentation Using Squarespace](https://selfaware.blog/home/2018/6/23/api-documentation)
-
-## Inspirations
-
- - [KunalKapadia/express-mongoose-es6-rest-api](https://github.com/KunalKapadia/express-mongoose-es6-rest-api)
- - [diegohaz/rest](https://github.com/diegohaz/rest)
-
-## License
-
-[MIT License](README.md) - [Daniel Sousa](https://github.com/danielfsousa)
+**Happy Coding! 😊**
