@@ -63,7 +63,6 @@ export class PokemonsComponent implements OnInit {
       favorites: [false] 
     });
 
-    // Subscribe to form changes with URL update
     this.formSubscription = this.searchForm.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged()
@@ -325,7 +324,6 @@ getPokemonTypeIcon = (type: string): string => {
       steel: "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/e8ddc4da-23dd-4502-b65b-378c9cfe5efa/dfgddcz-06a632af-8eb8-41e3-8468-dcc0eb9886f4.png/v1/fill/w_894,h_894/metal_type_symbol_tcg_by_jormxdos_dfgddcz-pre.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTI4MCIsInBhdGgiOiJcL2ZcL2U4ZGRjNGRhLTIzZGQtNDUwMi1iNjViLTM3OGM5Y2ZlNWVmYVwvZGZnZGRjei0wNmE2MzJhZi04ZWI4LTQxZTMtODQ2OC1kY2MwZWI5ODg2ZjQucG5nIiwid2lkdGgiOiI8PTEyODAifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.TvVirKp3SOiBkZgrJvZb0iKASIOy66c7mdKnZ3aBPTA"
     };
   
-    // Convert input to lowercase to make it case-insensitive
     const typeLower = type.toLowerCase();
     return typeIcons[typeLower] || '';
   };

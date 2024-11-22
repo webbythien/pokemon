@@ -42,25 +42,58 @@ router.post("/import", authorize(), upload.single("file"), async (req, res) => {
   
   
 
-router.get('/', authorize(), async (req, res) => {
-  const { page = 1, limit = 20, type1, type2, legendary } = req.query;
-  const query = {};
-  if (type1) query.type1 = type1;
-  if (type2) query.type2 = type2;
-  if (legendary) query.legendary = legendary === 'true';
-  const pokemons = await Pokemon.find(query)
-    .skip((page - 1) * limit)
-    .limit(Number(limit));
+  router.get(
+    '/',
+    authorize(),
+    async (req, res) => {
+      const { page = 1, limit = 20, type1, type2, legendary, name, minSpeed, maxSpeed, favorites } = req.query;
+      const query = {};
+      
+      // Add filters to query
+      if (type1) query.type1 = type1;
+      if (type2) query.type2 = type2;
+      if (legendary) query.legendary = legendary === 'true';
+      if (name) query.name = new RegExp(name, 'i');
+      if (minSpeed || maxSpeed) {
+        query.speed = {};
+        if (minSpeed) query.speed.$gte = Number(minSpeed);
+        if (maxSpeed) query.speed.$lte = Number(maxSpeed);
+      }
+      // Add favorites filter
+      if (favorites === 'true') {
+        query._id = { $in: req.user.favorites };
+      }
 
-  const userFavorites = req.user.favorites.map((fav) => fav.toString());
-  const results = pokemons.map((pokemon) => {
-    const pokemonObj = pokemon.toObject();
-    pokemonObj.is_favorite = userFavorites.includes(pokemon._id.toString());
-    return pokemonObj;
-  });
-  res.json(results);
-});
-
+      try {
+        const skip = (Number(page) - 1) * Number(limit);
+        const total = await Pokemon.countDocuments(query);
+  
+        const pokemons = await Pokemon.find(query)
+          .skip(skip)
+          .limit(Number(limit));
+  
+        const userFavorites = req.user.favorites.map((fav) => fav.toString());
+        const results = pokemons.map((pokemon) => {
+          const pokemonObj = pokemon.toObject();
+          pokemonObj.is_favorite = userFavorites.includes(pokemon._id.toString());
+          return pokemonObj;
+        });
+  
+        res.json({
+          results,
+          pagination: {
+            total,
+            page: Number(page),
+            limit: Number(limit),
+            pages: Math.ceil(total / Number(limit)),
+          },
+        });
+      } catch (error) {
+        res.status(500).json({ message: error.message });
+      }
+    }
+);
+  
 router.get("/:id", authorize(), async (req, res) => {
     const pokemon = await Pokemon.findById(req.params.id);
     if (!pokemon) {

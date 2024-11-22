@@ -1,7 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import 'swiper/css';
+@import 'swiper/css/navigation';
+@import 'swiper/css/pagination';
 * {
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;	
 	font-family: Raleway, sans-serif;
 }
+
+/* styles.css */
+/* @import 'swiper/css';
+@import 'swiper/css/navigation';
+@import 'swiper/css/pagination';
+
+swiper-container {
+  --swiper-theme-color: #007bff;
+  --swiper-navigation-color: #fff;
+  --swiper-pagination-color: #fff;
+}
+
+swiper-slide {
+  text-align: center;
+  background: #000;
+} */
+

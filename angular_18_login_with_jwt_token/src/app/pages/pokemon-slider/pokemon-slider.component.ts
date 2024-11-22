@@ -33,12 +33,11 @@ export class PokemonSliderComponent implements OnInit, OnDestroy {
   private readonly sanitizer = inject(DomSanitizer);
   private readonly destroyRef = inject(DestroyRef);
   private swiperEl: HTMLElement | null = null;
-  private hasInitializedVideos = false; // Flag to track initialization
+  private hasInitializedVideos = false; 
 
   constructor() {
     effect(() => {
       const pokemons = this.pokemonList();
-      // Only set videos once when we first get data
       if (pokemons.length && !this.hasInitializedVideos) {
         this.setRandomVideos(pokemons);
         this.hasInitializedVideos = true;
